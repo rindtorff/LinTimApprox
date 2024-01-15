@@ -693,6 +693,7 @@ class LinTimApprox:
             logging.info('Calculating optimal betas')
             self.beta_opt = pesp_part_to_betas(
                 ean=self.ean,
+                T=self.T,
                 schedule=lintim_solver.schedule,
                 linepool=self.linepool,
                 y_connection_param=lintim_solver.y_connection_param,
