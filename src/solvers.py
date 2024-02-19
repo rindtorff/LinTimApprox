@@ -580,7 +580,6 @@ class LinTimApprox:
             PATIENCE=5,
             CSV_NAME='lintim_approx.csv',
             TIMELIMIT=None,
-            MODE_TIME_INC=False,
             TIME_INCREASE=300,
             MAXTIME=3600) -> None:
 
@@ -617,7 +616,6 @@ class LinTimApprox:
 
         # optimization params
         self.TIMELIMIT = TIMELIMIT
-        self.MODE_TIME_INC = MODE_TIME_INC  # mode, that increases timelimit if we do not improve, bool 
         self.START_TIMELIMIT = TIMELIMIT  # reset timelimit to starting timelimit if we have improved in iteration
         self.TIME_INCREASE = TIME_INCREASE  # if we do not improve, increase timelimit by amount
         self.MAXTIME = MAXTIME  # upper bound for increasing timelimit
@@ -713,16 +711,14 @@ class LinTimApprox:
                 self.OPT_timetable = lintim_solver.schedule
                 self.OPT_obj_val = lintim_solver.obj_val
                 self.consecutive_rejects = 0
-                if self.MODE_TIME_INC:
-                    self.TIMELIMIT = self.START_TIMELIMIT
+                self.TIMELIMIT = self.START_TIMELIMIT
 
             else:
                 logging.info('Objective value has NOT been improved.')
                 self.consecutive_rejects += 1
-                if self.MODE_TIME_INC:
-                    self.TIMELIMIT = min(
-                        self.TIMELIMIT + self.TIME_INCREASE,
-                        self.MAXTIME)
+                self.TIMELIMIT = min(
+                    self.TIMELIMIT + self.TIME_INCREASE,
+                    self.MAXTIME)
 
             # update and saving dataframe
             logging.info('Update and saving dataframe')

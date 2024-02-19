@@ -239,4 +239,40 @@ def modify_matrix_efficiently(input_array, matrix):
     return matrix
 
 
+def evaluate_algo(
+        df_mm: pd.DataFrame,
+        df_sol: pd.DataFrame | None = None,
+        show_A = False,
+        show_sol = False,
+        save_fig = None,
+        **kwargs):
+    
+    '''
+    Extra arguments: 
+        xlim, ylim - tuple
+        grid - bool
+        title - str
+    '''
+    fig, ax = plt.subplots()
+    if df_mm is not None:
+        ax.plot(
+            df_mm['time_finished']/60, df_mm['nu(LinTim)'], marker='x', label='nu(LinTim)'
+        )
+    if show_A and df_mm is not None:
+        ax.plot(
+            df_mm['time_finished']/60, df_mm['nu(MM)'], marker='x', label='nu(MM)'
+        )
+        
+    if show_sol:
+        ax.plot(df_sol['Time']/60, df_sol['Objective Value'], label='Solution (Integrated)')
 
+    ax.legend()
+    ax.set_title(kwargs.get('title', None))
+    ax.set_xlabel('Time in minutes')
+    ax.set_ylabel('Objective Value')
+    ax.grid(kwargs.get('grid', True))
+    ax.set_xlim(kwargs.get('xlim', None))
+    ax.set_ylim(kwargs.get('ylim', None))
+
+    if save_fig:
+        fig.savefig(save_fig)
