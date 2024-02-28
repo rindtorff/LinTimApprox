@@ -39,7 +39,7 @@ Before you begin, ensure you have the following installed:
 3. Install and activate the provided Conda environment:
    ```
    conda env create -f environment.yml
-   conda activate meta
+   conda activate metamodel
    ```
 
 ### Configuration
